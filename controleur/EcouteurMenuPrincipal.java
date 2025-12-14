@@ -75,7 +75,7 @@ public class EcouteurMenuPrincipal implements ActionListener {
                                 "Confirmation Quitter",
                                 JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                         if (res == JOptionPane.OK_OPTION){
-                            clientChat.deconnecter();
+                            clientChat.deconnected();
                             System.exit(0);
                         }
                     }

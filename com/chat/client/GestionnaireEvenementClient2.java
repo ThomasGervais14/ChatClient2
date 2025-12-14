@@ -5,6 +5,7 @@ import com.chat.commun.evenement.GestionnaireEvenement;
 import com.chat.commun.net.Connexion;
 import com.chat.tictactoe.EtatPartieTicTacToe;
 import com.chat.programme.MainFrame;
+import controleur.EcouteurTicTacToe;
 import vue.FenetreTicTacToe;
 import vue.PanneauPrincipal;
 import vue.PanneauTicTacToe;
@@ -21,7 +22,6 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
      * @param client Client Le client pour lequel ce gestionnaire gère des événements
      */
     public GestionnaireEvenementClient2(ClientChat client, PanneauPrincipal panneauPrincipal) {
-
         this.client = client;
         this.panneauPrincipal = panneauPrincipal;
         this.client.setGestionnaireEvenementClient(this);
@@ -44,7 +44,7 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
             switch (typeEvenement) {
                 /******************* COMMANDES GÉNÉRALES *******************/
                 case "END": //Le serveur demande de fermer la connexion
-                    client.deconnecter(); //On ferme la connexion
+                    client.deconnected(); //On ferme la connexion
                     panneauPrincipal.setVisible(false);
                     System.out.println("Vider panneau principal");
                     panneauPrincipal.vider();
@@ -52,8 +52,8 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                 case "WAIT_FOR": //Le serveur demande de choisir un alias
                     boolean termine = false;
                     while (!termine) {
-                        fenetre = (MainFrame)panneauPrincipal.getTopLevelAncestor();
-                        alias = JOptionPane.showInputDialog(fenetre,"Votre alias :");
+                        fenetre = (MainFrame) panneauPrincipal.getTopLevelAncestor();
+                        alias = JOptionPane.showInputDialog(fenetre, "Votre alias :");
                         if (alias != null) {
                             if (!"".equals(alias.trim())) {
                                 client.envoyer(alias);
@@ -72,7 +72,7 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                     break;
                 case "EXIT": //Un client s'est déconnecté
                     alias = evenement.getArgument();
-                    System.out.println(alias+" a quitté le serveur");
+                    System.out.println(alias + " a quitté le serveur");
                     panneauPrincipal.retirerConnecte(alias);
                     break;
                 case "LIST": //Le serveur a renvoyé la liste des connectés
@@ -82,16 +82,16 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                 /******************* CHAT PUBLIC *******************/
                 case "HIST": //Le serveur a renvoyé l'historique des messages du chat public
                     panneauPrincipal.setVisible(true);
-                    fenetre = (MainFrame)panneauPrincipal.getTopLevelAncestor();
-                    fenetre.setTitle(MainFrame.TITRE+" - "+client.getAlias());
+                    fenetre = (MainFrame) panneauPrincipal.getTopLevelAncestor();
+                    fenetre.setTitle(MainFrame.TITRE + " - " + client.getAlias());
                     cnx.envoyer("LIST");
                     arg = evenement.getArgument();
                     panneauPrincipal.ajouterMessage(arg);
                     break;
                 case "OK":
                     panneauPrincipal.setVisible(true);
-                    fenetre = (MainFrame)panneauPrincipal.getTopLevelAncestor();
-                    fenetre.setTitle(MainFrame.TITRE+" - "+client.getAlias());
+                    fenetre = (MainFrame) panneauPrincipal.getTopLevelAncestor();
+                    fenetre.setTitle(MainFrame.TITRE + " - " + client.getAlias());
                     cnx.envoyer("LIST");
                     break;
                 case "MSG":
@@ -105,7 +105,7 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                 case "JOINOK":
                     arg = evenement.getArgument();
                     panneauPrincipal.creerFenetreSalonPrive(arg);
-                    System.out.println(arg + " Vous êtes en chat privé avec "+arg+" (PRV alias msg pour lui envoyer " +
+                    System.out.println(arg + " Vous êtes en chat privé avec " + arg + " (PRV alias msg pour lui envoyer " +
                             "un message en privé)");
                     break;
                 case "PRV":
@@ -116,7 +116,7 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                     else {
                         alias = arg.substring(0, i);
                         String msg = arg.substring(i).trim();
-                        panneauPrincipal.ajouterMessagePrive(alias,msg);
+                        panneauPrincipal.ajouterMessagePrive(alias, msg);
                     }
                     break;
                 case "DECLINE":
@@ -127,13 +127,13 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                     arg = evenement.getArgument();
                     invAlias = arg.split(":");
                     System.out.println("\t\tInvitations reçues :");
-                    for (String s:invAlias)
-                        System.out.println("\t\t\t- "+s);
+                    for (String s : invAlias)
+                        System.out.println("\t\t\t- " + s);
                     break;
-                case "QUIT" :
+                case "QUIT":
                     arg = evenement.getArgument();
                     panneauPrincipal.retirerSalonPrive(arg);
-                    System.out.println(arg +" a quitté le salon privé.");
+                    System.out.println(arg + " a quitté le salon privé.");
                     break;
                 /******************* JEU D'ÉCHECS EN RÉSEAU *******************/
                 case "TTT":
@@ -146,23 +146,27 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                     break;
                 case "TTTOK":
                     arg = evenement.getArgument();
-                    str = arg.substring(arg.indexOf(" ")+1);
-                    arg = arg.substring(0,arg.indexOf(" "));
+                    str = arg.substring(arg.indexOf(" ") + 1);
+                    arg = arg.substring(0, arg.indexOf(" "));
                     client.nouvellePartie();
-                    System.out.println("Partie d'échecs démarrée avec "+arg+". Votre couleur est : "+str);
+                    System.out.println("Partie de TicTacToe démarrée avec " + arg + ". Votre symbole est : " + str);
                     System.out.println(client.getEtatPartieTicTacToe());
                     PanneauTicTacToe panneauTicTacToe = new PanneauTicTacToe(client.getEtatPartieTicTacToe());
-                    //à compléter
+                    // *** FAIT ***
+                    EcouteurTicTacToe ecouteurTicTacToe = new EcouteurTicTacToe(client);
+                    panneauTicTacToe.setEcouteurTicTacToe(ecouteurTicTacToe);
 
-                    panneauPrincipal.setFenetreTicTacToe(arg,fenetreTicTacToe);
+                    fenetreTicTacToe = new FenetreTicTacToe(panneauTicTacToe, "Vous (" +str+ ") contre " + arg);
+
+                    panneauPrincipal.setFenetreTicTacToe(arg, fenetreTicTacToe);
                     break;
                 case "INVALID":
                     System.out.println(evenement.getArgument());
-                    fenetreTicTacToe=panneauPrincipal.getFenetreTicTacToe();
-                    JOptionPane.showMessageDialog(fenetreTicTacToe,evenement.getArgument());
+                    fenetreTicTacToe = panneauPrincipal.getFenetreTicTacToe();
+                    JOptionPane.showMessageDialog(fenetreTicTacToe, evenement.getArgument());
                     break;
                 case "COUP":
-                    etat = ((ClientChat)client).getEtatPartieTicTacToe();
+                    etat = ((ClientChat) client).getEtatPartieTicTacToe();
                     arg = evenement.getArgument();
                     if (etat.coup(arg)) {
                         System.out.println(etat);
@@ -172,16 +176,16 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                     break;
                 case "ABANDON":
                     arg = evenement.getArgument();
-                    fenetre = (MainFrame)panneauPrincipal.getTopLevelAncestor();
-                    JOptionPane.showMessageDialog(fenetre,arg+" a abandonné la partie d'échecs");
+                    fenetre = (MainFrame) panneauPrincipal.getTopLevelAncestor();
+                    JOptionPane.showMessageDialog(fenetre, arg + " a abandonné la partie d'échecs");
                     System.out.println(evenement.getArgument());
-                    ((ClientChat)client).setEtatPartieTicTacToe(null);
+                    ((ClientChat) client).setEtatPartieTicTacToe(null);
                     //On détruit la fenêtre de jeu d'échecs :
-                    panneauPrincipal.setFenetreTicTacToe(arg,null);
+                    panneauPrincipal.setFenetreTicTacToe(arg, null);
                     break;
                 /******************* TRAITEMENT PAR DÉFAUT *******************/
                 default:
-                    System.out.println("RECU : "+evenement.getType()+" "+evenement.getArgument());
+                    System.out.println("RECU : " + evenement.getType() + " " + evenement.getArgument());
             }
         }
     }

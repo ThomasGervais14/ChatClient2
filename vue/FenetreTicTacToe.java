@@ -3,7 +3,6 @@ package vue;
 import javax.swing.*;
 
 public class FenetreTicTacToe extends JFrame {
-
     PanneauTicTacToe panneauTicTacToe;
 
     public FenetreTicTacToe(PanneauTicTacToe panneauTicTacToe, String titre) {

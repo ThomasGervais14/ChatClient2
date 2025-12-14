@@ -63,7 +63,6 @@ public class ClientChat extends Client {
      * @return
      */
     public Boolean isConnected() {
-
         return true;
     }
 
