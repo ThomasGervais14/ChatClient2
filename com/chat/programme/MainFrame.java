@@ -15,16 +15,12 @@ import vue.PanneauTicTacToe;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- *
- * Cette classe représente la fenêtre principale de l'application cliente.
- *
+/** Cette classe représente la fenêtre principale de l'application cliente.
  * @author Abdelmoumène Toudeft (Abdelmoumene.Toudeft@etsmtl.ca)
  * @version 1.0
  * @since 2023-11-01
  */
 public class MainFrame extends JFrame implements Runnable, Observateur {
-
     public static final String TITRE = "Tic-Tac-Tchat";
     private ClientChat client;
     private PanneauPrincipal panneauPrincipal;
@@ -95,7 +91,8 @@ public class MainFrame extends JFrame implements Runnable, Observateur {
     public void seMettreAJour(Observable observable) {
         if (observable instanceof Client) {
             Client client = (Client)observable;
-            if (!client.isConnecte()) {
+
+            if (!client.isConnected()) {
                 this.setTitle(TITRE);
                 this.panneauPrincipal.setVisible(false);
                 panneauPrincipal.vider();

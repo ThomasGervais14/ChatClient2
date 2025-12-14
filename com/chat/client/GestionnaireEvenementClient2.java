@@ -26,6 +26,7 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
         this.panneauPrincipal = panneauPrincipal;
         this.client.setGestionnaireEvenementClient(this);
     }
+
     @Override
     public void traiter(Evenement evenement) {
         Object source = evenement.getSource();
@@ -60,7 +61,7 @@ public class GestionnaireEvenementClient2 implements GestionnaireEvenement {
                                 termine = true;
                             }
                         } else {
-                            client.deconnecter();
+                            client.deconnected();
                             termine = true;
                         }
                     }

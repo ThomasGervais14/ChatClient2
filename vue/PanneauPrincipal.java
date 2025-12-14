@@ -65,6 +65,7 @@ public class PanneauPrincipal  extends JPanel {
     public void ajouterMessage(String msg) {
         this.panneauChatPublic.ajouter(msg);
     }
+
     public void ajouterConnectes(String str) {
         String[] membres = str.split(":");
         for (String s : membres) {
@@ -90,8 +91,7 @@ public class PanneauPrincipal  extends JPanel {
 
     /**
      *  Créer une fenêtre interne JInternalFrame dans le bureau de titre alias
-     *  etcontenant un panneau de chat, permettant de chatter avec alias
-     *
+     *  et contenant un panneau de chat, permettant de chatter avec alias
      * @param alias
      */
     public void creerFenetreSalonPrive(String alias) {

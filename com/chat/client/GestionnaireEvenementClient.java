@@ -24,6 +24,7 @@ public class GestionnaireEvenementClient implements GestionnaireEvenement {
     public GestionnaireEvenementClient(Client client) {
         this.client = client;
     }
+
     /**
      * Méthode de gestion d'événements. Cette méthode contiendra le code qui gère les réponses obtenues d'un serveur.
      *
@@ -41,7 +42,7 @@ public class GestionnaireEvenementClient implements GestionnaireEvenement {
             cnx = (Connexion) source;
             typeEvenement = evenement.getType();
             switch (typeEvenement) {
-    /******************* COMMANDES GÉNÉRALES *******************/
+                /******************* COMMANDES GÉNÉRALES *******************/
                 case "END" : //Le serveur demande de fermer la connexion
                     client.deconnecter(); //On ferme la connexion
                     break;
@@ -52,14 +53,14 @@ public class GestionnaireEvenementClient implements GestionnaireEvenement {
                     for (String s:membres)
                         System.out.println("\t\t\t- "+s);
                     break;
-    /******************* CHAT PUBLIC *******************/
+                 /******************* CHAT PUBLIC *******************/
                 case "HIST" : //Le serveur a renvoyé l'historique des messages du chat public
                     arg = evenement.getArgument();
                     membres = arg.split("\n");
                     for (String s:membres)
                         System.out.println("\t\t\t."+s);
                     break;
-    /******************* CHAT PRIVÉ *******************/
+                /******************* CHAT PRIVÉ *******************/
                 case "JOIN" :
                     arg = evenement.getArgument();
                     System.out.println(arg + " vous a envoyé une invitation à un chat privé (JOIN/DECLINE alias " +
@@ -85,7 +86,7 @@ public class GestionnaireEvenementClient implements GestionnaireEvenement {
                     arg = evenement.getArgument();
                     System.out.println(arg +" a quitté le salon privé.");
                     break;
-   /******************* JEU D'ÉCHECS EN RÉSEAU *******************/
+                /******************* JEU D'ÉCHECS EN RÉSEAU *******************/
                 case "CHESSOK":
                     arg = evenement.getArgument();
                     str = arg.substring(arg.indexOf(" ")+1);
@@ -106,7 +107,7 @@ public class GestionnaireEvenementClient implements GestionnaireEvenement {
                     else //Ne devrait jamais rentrer dans le else car le serveur a validé le déplacement.
                         System.out.println("DEPLACEMENT BIZARRE : "+arg);
                     break;
-   /******************* TRAITEMENT PAR DÉFAUT *******************/
+                /******************* TRAITEMENT PAR DÉFAUT *******************/
                 default: //Afficher le texte recu :
                     System.out.println("\t\t\t."+evenement.getType()+" "+evenement.getArgument());
             }

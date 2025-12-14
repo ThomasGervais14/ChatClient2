@@ -44,21 +44,28 @@ public class PanneauInvitations extends JPanel {
         this.add(jsp1, BorderLayout.CENTER);
         this.add(pSud, BorderLayout.SOUTH);
     }
+
     public void setEcouteur(ActionListener ecouteur) {
         this.ecouteur = ecouteur;
         bAccepte.addActionListener(ecouteur);
         bRefuse.addActionListener(ecouteur);
     }
+
+    //<editor-fold desc="- METHODS -"
     public void ajouterInvitationRecue(String alias) {
         invitationsRecues.addElement(alias);
     }
+
     public void retirerInvitationRecue(String alias) {
         invitationsRecues.removeElement(alias);
     }
+
     public List<String> getElementsSelectionnes() {
         return jlInvitationsRecues.getSelectedValuesList();
     }
+
     public void vider() {
         this.invitationsRecues.clear();
     }
+    //</editor-fold>
 }

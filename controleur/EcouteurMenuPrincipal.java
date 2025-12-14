@@ -34,23 +34,23 @@ public class EcouteurMenuPrincipal implements ActionListener {
 
             switch (action) {
                 case "CONNECTER":
-                    if (!clientChat.isConnecte()) {
+                    if (!clientChat.isConnected()) {
                         if (!clientChat.connecter())
                             JOptionPane.showMessageDialog(fenetre,"Le serveur ne répond pas");
                     }
                     break;
                 case "DECONNECTER":
-                    if (!clientChat.isConnecte())
+                    if (!clientChat.isConnected())
                         break;
                     res = JOptionPane.showConfirmDialog(fenetre, "Vous allez vous déconnecter",
                             "Confirmation Déconnecter",
                             JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                     if (res == JOptionPane.OK_OPTION){
-                        clientChat.deconnecter();
+                        clientChat.deconnected();
                     }
                     break;
                 case "CONFIGURER":
-                    PanneauConfigServeur pcs = new PanneauConfigServeur(clientChat.getAdrServeur(),clientChat.getPortServeur());
+                    PanneauConfigServeur pcs = new PanneauConfigServeur(clientChat.getAdrServeur(), clientChat.getPortServeur());
                     recommencer = true;
                     do {
                         res = JOptionPane.showConfirmDialog(fenetre, pcs, "Configuration serveur", JOptionPane.OK_CANCEL_OPTION);
@@ -70,7 +70,7 @@ public class EcouteurMenuPrincipal implements ActionListener {
                     }while (recommencer);
                     break;
                 case "QUITTER":
-                    if (clientChat.isConnecte()) {
+                    if (clientChat.isConnected()) {
                         res = JOptionPane.showConfirmDialog(fenetre, "Vous allez vous déconnecter",
                                 "Confirmation Quitter",
                                 JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);

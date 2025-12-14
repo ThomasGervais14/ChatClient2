@@ -11,10 +11,11 @@ import vue.PanneauChat;
  */
 public class EcouteurChatPrive extends EcouteurChatPublic {
     private String alias;
+
     public EcouteurChatPrive(String alias, ClientChat clientChat, PanneauChat panneauChat) {
         super(clientChat, panneauChat);
         this.alias = alias;
     }
-    //à compléter (redéfinir la méthode actionPerformed())
 
+    // A COMPLETER (redéfinir la méthode actionPerformed())
 }

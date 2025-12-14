@@ -8,6 +8,7 @@ public interface Config {
      * Adresse IP du serveur.
      */
     String ADRESSE_SERVEUR = "127.0.0.1";
+
     /**
      * Port d'écoute du serveur.
      */
