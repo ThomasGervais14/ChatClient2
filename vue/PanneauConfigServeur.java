@@ -1,6 +1,7 @@
 package vue;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -13,6 +14,19 @@ public class PanneauConfigServeur extends JPanel {
 
     public PanneauConfigServeur(String adr, int port) {
         // A COMPLETER
+        setLayout(new GridLayout(2, 2, 5, 15));
+
+        JLabel labelAdresseServ = new JLabel("Adresse du serveur :");
+        JLabel labelPortServ = new JLabel("Port du serveur :");
+
+        JTextField texteAdresseServ = new JTextField(adr);
+        JTextField textePortServ = new JTextField(String.valueOf(port));
+
+        //ajouter les éléments au panneau
+        add(labelAdresseServ);
+        add(texteAdresseServ);
+        add(labelPortServ);
+        add(textePortServ);
     }
 
     public String getAdresseServeur() {

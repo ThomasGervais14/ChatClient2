@@ -39,13 +39,14 @@ public class ClientChat extends Client {
      * @param adresseServeur
      */
     public void setAdrServeur(String adresseServeur) {
-
+        super.setAdrServeur(adresseServeur);
     }
     /**
      * A COMPLETER -
      * @param port
      */
     public void setPortServeur(int port) {
+        super.setPortServeur(port);
     }
     //</editor-fold>
 

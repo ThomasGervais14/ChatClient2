@@ -3,6 +3,7 @@ package vue;
 import com.chat.client.ClientChat;
 import controleur.EcouteurChatPrive;
 import controleur.EcouteurChatPublic;
+import controleur.EcouteurInvitations;
 import controleur.EcouteurListeConnectes;
 
 import javax.swing.*;
@@ -36,6 +37,8 @@ public class PanneauPrincipal  extends JPanel {
         panneauChatPublic.setEcouteur(ecouteurChatPublic);
 
         panneauInvitations = new PanneauInvitations();
+        EcouteurInvitations ecouteurInvitations = new EcouteurInvitations(clientChat, panneauInvitations);
+        panneauInvitations.setEcouteur(ecouteurInvitations);
 
         panneauxPrives = new HashMap<>();
 
@@ -114,6 +117,14 @@ public class PanneauPrincipal  extends JPanel {
         String message = alias+">>"+msg;
         System.out.println("PRIVÉ : "+alias+">>"+msg);
         //à compléter
+        PanneauChatPrive pcp = panneauxPrives.get(alias);
+
+        if (pcp != null) {
+            pcp.ajouter(message);
+        }
+        else {
+            System.err.println("Panneau chat privé introuvable pour : " + alias);
+        }
     }
 
     public void inviteTicTacToe(String alias) {
